@@ -11,6 +11,7 @@ usermod: cannot lock /etc/passwd; try again later.
 sudo usermod -aG docker ingrid
 [sudo] password for ingrid:
 [ingrid@vbox ~]$
+
 ```
 
 ## 4. Un premier conteneur en vif
