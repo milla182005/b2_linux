@@ -4,7 +4,13 @@
 🌞 **Ajouter votre utilisateur au groupe `docker`**
 
 ```
-[ingrid@localhost ~]$ sudo usermod -aG docker <USER>
+[ingrid@vbox ~]$ usermod -aG docker ingrid
+usermod: Permission denied.
+usermod: cannot lock /etc/passwd; try again later.
+[ingrid@vbox ~]$ sudo !!
+sudo usermod -aG docker ingrid
+[sudo] password for ingrid:
+[ingrid@vbox ~]$
 ```
 
 ## 4. Un premier conteneur en vif
