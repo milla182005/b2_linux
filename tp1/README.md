@@ -434,27 +434,42 @@ On va donc le lancer de façon interactive : on lance le conteneur, et on pop to
 - ça donne donc :
 
 ```bash
-# on lance un conteneur "python" de manière interactive
-# et on demande à ce conteneur d'exécuter la commande "bash" au démarrage
-docker run -it python bash
+[ingrid@vbox nginx]$ docker run -it python bash
+Unable to find image 'python:latest' locally
+latest: Pulling from library/python
+fdf894e782a2: Pull complete
+5bd71677db44: Pull complete
+551df7f94f9c: Pull complete
+ce82e98d553d: Pull complete
+5f0e19c475d6: Pull complete
+abab87fa45d0: Pull complete
+2ac2596c631f: Pull complete
+Digest: sha256:9255d1993f6d28b8a1cd611b108adbdfa38cb7ccc46ddde8ea7d734b6c845e32
+Status: Downloaded newer image for python:latest
+
 ```
 
 > *Ce conteneur ne vit (comme tu l'as demandé) que pour exécuter ton `bash`. Autrement dit, si ce `bash` se termine, alors le conteneur s'éteindra. Autrement diiiit, si tu quittes le `bash`, le processus `bash` va se terminer, et le conteneur s'éteindra. C'est vraiment un conteneur one-shot quoi quand on utilise `docker run` comme ça.*
 
 🌞 **Installe des libs Python**
 
-- une fois que vous avez lancé le conteneur, et que vous êtes dedans avec `bash`
-- installez deux libs, elles ont été choisies complètement au hasard (avec la commande `pip install`):
-  - `aiohttp`
-  - `aioconsole`
-- tapez la commande `python` pour ouvrir un interpréteur Python
-- taper la ligne `import aiohttp` pour vérifier que vous avez bien téléchargé la lib
+````
+root@9088aeefda36:/# python3
+Python 3.13.1 (main, Dec  4 2024, 20:40:27) [GCC 12.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import aiohttp
 
-> *Notez que la commande `pip` est déjà présente. En effet, c'est un conteneur `python`, donc les mecs qui l'ont construit ont fourni la commande `pip` avec !*
+````
 
 ➜ **Tant que t'as un shell dans un conteneur**, tu peux en profiter pour te balader. Tu peux notamment remarquer :
 
 - si tu fais des `ls` un peu partout, que le conteneur a sa propre arborescence de fichiers
+
+````
+root@9088aeefda36:/# ls /
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+
+````
 - si t'essaies d'utiliser des commandes usuelles un poil évoluées, elles sont pas là
   - genre t'as pas `ip a` ou ce genre de trucs
   - un conteneur on essaie de le rendre le plus léger possible
