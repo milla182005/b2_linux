@@ -124,6 +124,79 @@ Bon j'arrête de blabla, voilà le soleil.
 - dans votre dépôt git de rendu
 - bah juste voilà ça doit fonctionner : je git clone ton truc, je `docker compose up` et ça doit fonctionner :)
 
+** rendu du fichier "docker-compose.yml **
+
+
+/**
+
+
+services:
+
+  db:
+    image: mysql:5.7
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
+ 
+
+  web: 
+      build:
+         context: .
+      container_name: python_web
+      volumes: 
+        - .:/app
+      environment:
+        - DB_HOST=db
+      ports: 
+        - "8888:8888"
+      command: python  /app/main.py
+
+
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      container_name: phpmyadmin
+      environment:
+        PMA_HOST: db
+        MYSQL_ROOT_PASSWORD: rootpassword
+      ports:
+        - "8080:80"
+      depends_on:
+        - db
+    
+volumes:
+  mysql-data:
+
+**/
+" http://localhost:8888 " permet d'accéder à l'application web
+
+
+** rendu du fichier "dockerfile **
+
+/**
+
+
+FROM python:3.9
+
+WORKDIR /app
+
+COPY . /app 
+
+RUN pip install -r requirements.txt
+
+EXPOSE 5000
+
+CMD ["python", "main.py"]
+
+
+
+**/
+" http://localhost:8080 " permet d'acceder à l'interface de PHPMyAdmin.
+
 ➜ **Un environnement de dév local propre avec Docker**
 
 - 3 conteneurs, donc environnement éphémère/destructible
